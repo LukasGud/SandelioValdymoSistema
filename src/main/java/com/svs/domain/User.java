@@ -4,6 +4,8 @@ package com.svs.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -21,7 +23,7 @@ public class User {
     private Long id;
     @NotBlank(message = "This field is required")
     @Column(updatable = false, unique = true)
-    private String fullName;
+    private String firstName;
     @NotBlank(message = "This field is required")
     @Column(updatable = false, unique = true)
     private String lastName;
@@ -32,9 +34,15 @@ public class User {
     @NotBlank(message = "This field is required")
     private String phoneNumber;
     private typeOfClient type;
-    @ManyToOne
-    @JoinColumn(name = "warehouse_id")
-    private Warehouse warehouseId;
+    @NotBlank(message = "This field is required")
+    private String nameOfStock;
+    @NotBlank(message = "This field is required")
+    private String weight;
+    @Max(40)
+    @Min(1)
+    private int placeOfStorage;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date created_At;
 
     public User() {
     }
@@ -47,12 +55,12 @@ public class User {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -87,4 +95,42 @@ public class User {
         this.type = type;
     }
 
+    public String getNameOfStock() {
+        return nameOfStock;
+    }
+
+    public void setNameOfStock(String nameOfStock) {
+        this.nameOfStock = nameOfStock;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public int getPlaceOfStorage() {
+        return placeOfStorage;
+    }
+
+    public void setPlaceOfStorage(int placeOfStorage) {
+        this.placeOfStorage = placeOfStorage;
+    }
+
+    public Date getCreated_At() {
+        return created_At;
+    }
+
+    public void setCreated_At(Date created_At) {
+        this.created_At = created_At;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.created_At = new Date();
+    }
+
 }
+

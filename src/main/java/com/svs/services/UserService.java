@@ -6,6 +6,8 @@ import com.svs.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -14,19 +16,33 @@ public class UserService {
 
     public User saveOrUpdate(User user) {
         try {
-            user.setFullName(user.getFullName().toUpperCase());
+            user.setFirstName(user.getFirstName().toUpperCase());
             return userRepository.save(user);
         } catch (Exception e) {
-            throw new ProjectException("User name '" + user.getFullName().toUpperCase() + "'already exists");
+            throw new ProjectException("User name '" + user.getFirstName().toUpperCase() + "'already exists");
         }
     }
 
-    public User findByFullName(String fullName) {
-        User user = userRepository.findByFullName(fullName.toUpperCase());
+    public User findByFullName(String firstName) {
+        User user = userRepository.findByFirstName(firstName.toUpperCase());
         if (user == null) {
-            throw new ProjectException("User name '" + fullName + "'does not exist");
+            throw new ProjectException("User name '" + firstName + "'does not exist");
         }
         return user;
     }
 
+    public List<User> findallUsers() {
+        return userRepository.findAll();
+    }
+
+    public void deleteUserByFirstName(String firstName) {
+
+        User user = userRepository.findByFirstName(firstName.toUpperCase());
+
+        if (user == null) {
+            throw new ProjectException("Can not delete user with name '" + firstName + "'. It does not exist");
+        }
+
+        userRepository.delete(user);
+    }
 }
