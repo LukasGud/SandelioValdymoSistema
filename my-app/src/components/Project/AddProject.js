@@ -103,13 +103,13 @@ class AddProject extends Component {
                         "is-invalid": errors.birthYear
                       })}
                       placeholder="Year of birth"
-                      name="yearOfBirth"
-                      value={this.state.yearOfBirth}
+                      name="birthYear"
+                      value={this.state.birthYear}
                       onChange={this.OnChange}
                     />
                     {errors.yearOfBirth && (
                       <div className="invalid-feedback">
-                        {errors.yearOfBirth}
+                        {errors.birthYear}
                       </div>
                     )}
                   </div>
